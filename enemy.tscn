@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpgb0di7xyf0k"]
+
+[ext_resource type="Script" path="res://enemy.gd" id="1_85e3c"]
+[ext_resource type="PackedScene" uid="uid://reiovhrsu28h" path="res://character_body_2d.tscn" id="2_47kpx"]
+
+[node name="enemy" type="Node2D"]
+script = ExtResource("1_85e3c")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("2_47kpx")]
+
+[editable path="CharacterBody2D"]

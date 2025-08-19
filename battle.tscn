@@ -1,0 +1,125 @@
+[gd_scene load_steps=8 format=3 uid="uid://ccv1bb5v61aj1"]
+
+[ext_resource type="Script" path="res://Battle.gd" id="1_3vjay"]
+[ext_resource type="PackedScene" uid="uid://dpgb0di7xyf0k" path="res://enemy.tscn" id="2_descp"]
+[ext_resource type="PackedScene" uid="uid://je5hoyls8bgc" path="res://player.tscn" id="2_f61ac"]
+
+[sub_resource type="Animation" id="Animation_fwfws"]
+resource_name = "attack_player"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("player:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(311, 487), Vector2(589, 287), Vector2(311, 487)]
+}
+
+[sub_resource type="Animation" id="Animation_8pm0f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("player:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(311, 487)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("enemy:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(689, 220)]
+}
+
+[sub_resource type="Animation" id="Animation_a6cey"]
+resource_name = "defend_player"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("enemy:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(689, 220), Vector2(423, 397), Vector2(689, 220)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8007k"]
+_data = {
+"RESET": SubResource("Animation_8pm0f"),
+"attack_player": SubResource("Animation_fwfws"),
+"defend_player": SubResource("Animation_a6cey")
+}
+
+[node name="battle" type="Node2D"]
+script = ExtResource("1_3vjay")
+
+[node name="enemy" parent="." instance=ExtResource("2_descp")]
+position = Vector2(689, 220)
+script = null
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" parent="enemy/CharacterBody2D" index="1"]
+metadata/_edit_group_ = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -182.0
+offset_top = -181.0
+offset_right = -117.0
+offset_bottom = -115.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(2, 2)
+size_flags_horizontal = 0
+metadata/_edit_group_ = true
+
+[node name="Defend" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+text = "Defend"
+
+[node name="Attack" type="Button" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Attack"
+
+[node name="player" parent="." instance=ExtResource("2_f61ac")]
+position = Vector2(311, 487)
+script = null
+metadata/_edit_group_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_8007k")
+}
+
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/Defend" to="." method="_on_defend_pressed"]
+[connection signal="pressed" from="CanvasLayer/VBoxContainer/Attack" to="." method="_on_button_pressed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+
+[editable path="enemy"]
+[editable path="enemy/CharacterBody2D"]
+[editable path="player"]

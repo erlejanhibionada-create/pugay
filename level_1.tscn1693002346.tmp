@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmagdnvgylv74"]
+
+[ext_resource type="Texture2D" uid="uid://dbet7asgf0r3b" path="res://Assets/Images/practice_bg.jpg" id="1_hbghi"]
+[ext_resource type="PackedScene" uid="uid://cvmsg341orw7t" path="res://strike_sequence.tscn" id="1_hn12h"]
+[ext_resource type="PackedScene" uid="uid://ci3tasdop3ni8" path="res://OWplayer.tscn" id="2_hn12h"]
+
+[node name="Level1" type="Node2D"]
+
+[node name="StrikeSequence" parent="." instance=ExtResource("1_hn12h")]
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+texture = ExtResource("1_hbghi")
+
+[node name="Carla" parent="." instance=ExtResource("2_hn12h")]
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Carla"]
+remote_path = NodePath("../../Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
